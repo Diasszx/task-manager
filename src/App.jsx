@@ -1,9 +1,11 @@
 import Sidebar from './components/Sidebar'
+import Tasks from './components/Tasks'
 
 function App() {
   return (
-    <div>
+    <div className="flex gap-6">
       <Sidebar />
+      <Tasks />
     </div>
   )
 }
