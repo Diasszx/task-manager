@@ -1,8 +1,10 @@
 import CheckIcon from '../assets/icons/check.svg?react'
 import LoaderIcon from '../assets/icons/loader.svg?react'
 import DetailIcon from '../assets/icons/details.svg?react'
+import TrashIcon from '../assets/icons/trash.svg?react'
+import Button from './Button'
 
-const TaskItem = ({ task, handleTaskCheckboxClick }) => {
+const TaskItem = ({ task, handleCheckboxClick, handleDeleteClick }) => {
   const getStatusClasses = () => {
     if (task.status === 'done') {
       return 'bg-[#00ADB5] text-[#002C2E] '
@@ -29,7 +31,7 @@ const TaskItem = ({ task, handleTaskCheckboxClick }) => {
             type="checkbox"
             checked={task.status == 'in_progress'}
             className="absolute h-full w-full cursor-pointer opacity-0"
-            onClick={() => handleTaskCheckboxClick(task.id)}
+            onClick={() => handleCheckboxClick(task.id)}
           />
           {task.status == 'done' && <CheckIcon />}
           {task.status == 'in_progress' && (
@@ -38,9 +40,18 @@ const TaskItem = ({ task, handleTaskCheckboxClick }) => {
         </label>
         <span className="text-sm">{task.title}</span>
       </div>
-      <a href="#" className="transition hover:opacity-75">
-        <DetailIcon />
-      </a>
+      <div className="flex items-center gap-3">
+        <Button variant="ghost">
+          <TrashIcon
+            onClick={() => handleDeleteClick(task.id)}
+            className="text-red-500 transition hover:opacity-70"
+          />
+        </Button>
+
+        <a href="#" className="transition hover:opacity-75">
+          <DetailIcon />
+        </a>
+      </div>
     </div>
   )
 }

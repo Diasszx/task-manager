@@ -39,6 +39,12 @@ const Tasks = () => {
     setTask(updateTask)
   }
 
+  const handleTaskDeleteClick = (taskId) => {
+    const deleteTask = tasks.filter((tasks) => tasks.id !== taskId)
+
+    setTask(deleteTask)
+  }
+
   return (
     <div className="w-full px-8 py-16">
       <div className="mb-6 flex w-full justify-between">
@@ -65,7 +71,8 @@ const Tasks = () => {
             <TaskItem
               key={task.id}
               task={task}
-              handleTaskCheckboxClick={handleTaskCheckboxClick}
+              handleCheckboxClick={handleTaskCheckboxClick}
+              handleDeleteClick={handleTaskDeleteClick}
             />
           ))}
         </div>
@@ -75,7 +82,8 @@ const Tasks = () => {
             <TaskItem
               key={task.id}
               task={task}
-              handleTaskCheckboxClick={handleTaskCheckboxClick}
+              handleCheckboxClick={handleTaskCheckboxClick}
+              handleDeleteClick={handleTaskDeleteClick}
             />
           ))}
         </div>
@@ -85,7 +93,8 @@ const Tasks = () => {
             <TaskItem
               key={task.id}
               task={task}
-              handleTaskCheckboxClick={handleTaskCheckboxClick}
+              handleCheckboxClick={handleTaskCheckboxClick}
+              handleDeleteClick={handleTaskDeleteClick}
             />
           ))}
         </div>
