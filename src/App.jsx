@@ -3,7 +3,7 @@ import Tasks from './components/Tasks'
 
 function App() {
   return (
-    <div className="flex gap-6">
+    <div className="flex">
       <Sidebar />
       <Tasks />
     </div>
