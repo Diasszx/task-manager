@@ -1,4 +1,4 @@
-import { CheckIcon, LoaderIcon, DetailIcon } from '../assets/icons'
+import { CheckIcon, DetailIcon, LoaderIcon } from '../assets/icons'
 import TrashIcon from '../assets/icons/trash.svg?react'
 import Button from './Button'
 

@@ -75,7 +75,10 @@ const Tasks = () => {
             Nova Tarefa
             <AddIcon />
           </Button>
-          <AddTaskDialog isOpen={addTaskDialogIsOpen}></AddTaskDialog>
+          <AddTaskDialog
+            isOpen={addTaskDialogIsOpen}
+            handleClose={() => setaddTaskDialogIsOpen(false)}
+          ></AddTaskDialog>
         </div>
       </div>
       <div className="rounded-xl bg-white p-6">
