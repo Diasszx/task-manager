@@ -1,17 +1,21 @@
+import {
+  AddIcon,
+  TrashIcon,
+  SunIcon,
+  CloudsunIcon,
+  MoonIcon,
+} from '../assets/icons'
 import Button from './Button'
-import AddIcon from '../assets/icons/add.svg?react'
-import TrashIcon from '../assets/icons/trash.svg?react'
-import SunIcon from '../assets/icons/sun.svg?react'
-import CloudsunIcon from '../assets/icons/cloud-sun.svg?react'
-import MoonIcon from '../assets/icons/moon.svg?react'
 import TASKS from './constants/CreatedTasks'
 import TasksSeparator from './TasksSeparator'
 import { useState } from 'react'
 import TaskItem from './TaskItem'
 import { toast } from 'sonner'
+import AddTaskDialog from './AddTaskDialog'
 
 const Tasks = () => {
   const [tasks, setTask] = useState(TASKS)
+  const [addTaskDialogIsOpen, setaddTaskDialogIsOpen] = useState(false)
   const morningTasks = tasks.filter((task) => task.time == 'morning')
   const afternoonTasks = tasks.filter((task) => task.time == 'afternoon')
   const eveningTasks = tasks.filter((task) => task.time == 'evening')
@@ -63,10 +67,14 @@ const Tasks = () => {
           <Button variant="ghost">
             Limpar Tarefas <TrashIcon />
           </Button>
-          <Button variant="primary">
+          <Button
+            variant="primary"
+            onClick={() => setaddTaskDialogIsOpen(true)}
+          >
             Nova Tarefa
             <AddIcon />
           </Button>
+          <AddTaskDialog isOpen={addTaskDialogIsOpen}></AddTaskDialog>
         </div>
       </div>
       <div className="rounded-xl bg-white p-6">
