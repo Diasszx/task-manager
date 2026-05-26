@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 
 import Button from './Button'
 import Input from './Input'
+import TimeSelect from './TimeSelect'
 
 const AddTaskDialog = ({ isOpen, handleClose }) => {
   const [showAnimation, setShowAnimation] = useState(false)
@@ -33,7 +34,7 @@ const AddTaskDialog = ({ isOpen, handleClose }) => {
 
         <div className="flex w-[336] flex-col space-y-4">
           <Input placeholder="Título da tarefa" label="Título" id="title" />
-          <Input placeholder="Selecione" label="Horário" id="time" />
+          <TimeSelect />
           <Input
             placeholder="Descreva a tarefa"
             label="Descrição"
