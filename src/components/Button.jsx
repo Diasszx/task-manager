@@ -10,7 +10,7 @@ const Button = ({
       return 'bg-[#00ADB5] text-white'
     }
 
-    if (variant === 'secundary') {
+    if (variant === 'secondary') {
       return 'bg-[#EEEEEE] text-[#35383E]'
     }
 
