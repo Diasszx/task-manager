@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { toast } from 'sonner'
 import { v4 } from 'uuid'
 
 import Button from './Button'
@@ -16,11 +17,20 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
     if (isOpen) {
       setShowAnimation(true)
     }
+
+    if (!isOpen) {
+      setTitle('')
+      setDescription('')
+    }
   }, [isOpen])
 
   if (!isOpen) return null
 
   const handleSaveClick = () => {
+    if (!title.trim() || !description.trim() || !time) {
+      return toast.error('Preencha todos os campos!')
+    }
+
     handleSubmit({
       id: v4(),
       title,
