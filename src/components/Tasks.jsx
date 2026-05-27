@@ -71,7 +71,7 @@ const Tasks = () => {
           <h2 className="text-xl font-semibold">Minhas Tarefas</h2>
         </div>
         <div className="flex items-center gap-3">
-          <Button variant="ghost">
+          <Button variant="ghost" onClick={() => setTask([''])}>
             Limpar Tarefas <TrashIcon />
           </Button>
           <Button
