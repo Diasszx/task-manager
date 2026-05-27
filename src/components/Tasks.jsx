@@ -21,6 +21,12 @@ const Tasks = () => {
   const afternoonTasks = tasks.filter((task) => task.time == 'afternoon')
   const eveningTasks = tasks.filter((task) => task.time == 'evening')
 
+  const handleAddTaskSubmit = (task) => {
+    console.log(task)
+    setTask([...tasks, task])
+    toast.success('Tarefa adicionada com sucesso!')
+  }
+
   const handleTaskCheckboxClick = (taskId) => {
     const updateTask = tasks.map((task) => {
       if (taskId != task.id) {
@@ -78,6 +84,7 @@ const Tasks = () => {
           <AddTaskDialog
             isOpen={addTaskDialogIsOpen}
             handleClose={() => setaddTaskDialogIsOpen(false)}
+            handleSubmit={handleAddTaskSubmit}
           ></AddTaskDialog>
         </div>
       </div>
