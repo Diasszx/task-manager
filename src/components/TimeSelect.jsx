@@ -14,6 +14,10 @@ const TimeSelect = ({ ...rest }) => {
         <option value="afternoon">Tarde</option>
         <option value="evening">Noite</option>
       </select>
+
+      {rest.errorMessage && (
+        <p className="text-left text-xs text-red-500">{rest.errorMessage}</p>
+      )}
     </div>
   )
 }
