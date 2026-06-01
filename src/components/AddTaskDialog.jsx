@@ -82,8 +82,10 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
           showAnimation ? 'scale-100 opacity-100' : 'scale-90 opacity-0'
         }`}
       >
-        <h2 className="text-xl font-semibold text-[#35383E]">Nova Tarefa</h2>
-        <p className="mb-4 mt-1 text-sm text-[#9A9C9F]">
+        <h2 className="text-xl font-semibold text-brand-dark-blue">
+          Nova Tarefa
+        </h2>
+        <p className="mb-4 mt-1 text-sm text-brand-dark-gray">
           Insira as Informações abaixo
         </p>
 

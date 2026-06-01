@@ -5,15 +5,15 @@ import Button from './Button'
 const TaskItem = ({ task, handleCheckboxClick, handleDeleteClick }) => {
   const getStatusClasses = () => {
     if (task.status === 'done') {
-      return 'bg-[#00ADB5] text-[#002C2E] '
+      return 'bg-brand-primary text-[#002C2E] '
     }
 
     if (task.status === 'in_progress') {
-      return 'bg-[#FFAA04] text-[#FFAA04]'
+      return 'bg-brand-process text-brand-process'
     }
 
     if (task.status === 'not_started') {
-      return 'bg-[#35383E] text-[#002C2E] bg-opacity-10'
+      return 'bg-brand-dark-blue text-[#002C2E] bg-opacity-10'
     }
   }
   return (

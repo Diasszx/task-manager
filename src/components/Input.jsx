@@ -5,7 +5,7 @@ const Input = ({ label, errorMessage, ...rest }) => {
     <div className="flex flex-col text-left">
       <InputLabel htmlFor={rest.id}>{label}</InputLabel>
       <input
-        className="rounded-lg border border-solid px-4 py-3 outline-[#00ADB5] placeholder:text-sm placeholder:text-[#9A9C9F]"
+        className="outline-primary rounded-lg border border-solid px-4 py-3 placeholder:text-sm placeholder:text-brand-dark-gray"
         {...rest}
       ></input>
       {errorMessage && (
