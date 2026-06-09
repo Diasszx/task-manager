@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { v4 } from 'uuid'
 
@@ -9,9 +9,9 @@ import TimeSelect from './TimeSelect'
 
 const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
   const [showAnimation, setShowAnimation] = useState(false)
-  const [description, setDescription] = useState('')
-  const [title, setTitle] = useState('')
-  const [time, setTime] = useState('morning')
+  const descriptionRef = useRef(null)
+  const titleRef = useRef(null)
+  const timeRef = useRef(null)
   const [errors, setErros] = useState([])
 
   useEffect(() => {
@@ -20,21 +20,18 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
     }
 
     if (!isOpen) {
-      setTitle('')
-      setDescription('')
+      if (titleRef.current) titleRef.current.value = ''
+      if (descriptionRef.current) descriptionRef.current.value = ''
     }
   }, [isOpen])
 
   if (!isOpen) return null
 
-  const handleClearInputError = (inputName) => {
-    setErros((currentErrors) =>
-      currentErrors.filter((error) => error.inputName !== inputName)
-    )
-  }
-
   const handleSaveClick = () => {
     const newErros = []
+    const title = titleRef.current.value
+    const description = descriptionRef.current.value
+    const time = timeRef.current.value
 
     if (!title.trim()) {
       newErros.push({ inputName: 'title', message: 'O título é obrigatório!' })
@@ -95,30 +92,15 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
             placeholder="Título da tarefa"
             label="Título"
             id="title"
-            value={title}
-            onChange={(event) => {
-              setTitle(event.target.value)
-              handleClearInputError('title')
-            }}
+            ref={titleRef}
             errorMessage={titleError?.message}
           />
-          <TimeSelect
-            value={time}
-            onChange={(event) => {
-              setTime(event.target.value)
-              handleClearInputError('time')
-            }}
-            errorMessage={timeError?.message}
-          />
+          <TimeSelect ref={timeRef} errorMessage={timeError?.message} />
           <Input
             placeholder="Descreva a tarefa"
             label="Descrição"
             id="description"
-            value={description}
-            onChange={(event) => {
-              setDescription(event.target.value)
-              handleClearInputError('description')
-            }}
+            ref={descriptionRef}
             errorMessage={descriptionError?.message}
           />
           <div className="flex gap-3">

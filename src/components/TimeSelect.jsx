@@ -1,11 +1,12 @@
 import InputLabel from './InputLabel'
 
-const TimeSelect = ({ ...rest }) => {
+const TimeSelect = ({ ref, ...rest }) => {
   return (
     <div className="flex flex-col gap-1 text-left">
       <InputLabel html="time">Horário</InputLabel>
 
       <select
+        ref={ref}
         id="time"
         className="rounded-lg border border-solid px-4 py-3 outline-brand-primary placeholder:text-sm placeholder:text-brand-dark-gray"
         {...rest}
