@@ -84,8 +84,8 @@ const Tasks = () => {
       return toast.error('Erro ao deletar tarefa. Por favor, tente novamente')
     }
 
-    const deleteTask = tasks.filter((tasks) => tasks.id !== taskId)
-    setTask(deleteTask)
+    const newTasks = tasks.filter((tasks) => tasks.id !== taskId)
+    setTask(newTasks)
     toast.success('Tarefa Deletada com sucesso!')
   }
 
