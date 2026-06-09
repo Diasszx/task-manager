@@ -58,7 +58,7 @@ const TaskItem = ({ task, handleCheckboxClick, handleDeleteClick }) => {
 
 TaskItem.PropTypes = {
   task: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     status: PropTypes.oneOf(['done', 'in_progress', 'not_started']).isRequired,

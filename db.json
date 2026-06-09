@@ -1,46 +1,64 @@
 {
   "tasks": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Ir para academia",
       "description": "Academia de jaguaribe",
       "status": "done",
       "time": "morning"
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "Comer depois do treino",
       "description": "Banana com canela",
       "status": "done",
       "time": "morning"
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "Fazer Almoço",
       "description": "Feijão, arroz e calabresa",
       "status": "in_progress",
       "time": "afternoon"
     },
     {
-      "id": 4,
+      "id": "4",
       "title": "Comer almoço",
       "description": "100g de arroz, 200g carne, 90g feijão",
       "status": "in_progress",
       "time": "afternoon"
     },
     {
-      "id": 5,
+      "id": "5",
       "title": "Ir para o culto",
       "description": "Culto da familia igreja farol",
       "status": "not_started",
       "time": "evening"
     },
     {
-      "id": 6,
+      "id": "6",
       "title": "Dormir",
       "description": "De 22h",
       "status": "not_started",
       "time": "evening"
+    },
+    {
+      "id": "ivmZWhUBCwk"
+    },
+    {
+      "id": "o4el-G4eIIE",
+      "title": "teste23",
+      "description": "test1234",
+      "status": "not_started",
+      "time": "morning"
+    },
+    {
+      "id": "CKkHf8M3RZ4",
+      "title": "test1546",
+      "description": "test2134",
+      "status": "not_started",
+      "time": "evening"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
