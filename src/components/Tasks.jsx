@@ -10,7 +10,6 @@ import {
 } from '../assets/icons'
 import AddTaskDialog from './AddTaskDialog'
 import Button from './Button'
-import TASKS from './constants/CreatedTasks'
 import TaskItem from './TaskItem'
 import TasksSeparator from './TasksSeparator'
 
@@ -21,16 +20,16 @@ const Tasks = () => {
   const afternoonTasks = tasks.filter((task) => task.time == 'afternoon')
   const eveningTasks = tasks.filter((task) => task.time == 'evening')
 
+  const fetchTasks = async () => {
+    const response = await fetch('http://localhost:3000/tasks', {
+      method: 'GET',
+    })
+
+    const tasks = await response.json()
+    setTask(tasks)
+  }
+
   useEffect(() => {
-    const fetchTasks = async () => {
-      const response = await fetch('http://localhost:3000/tasks', {
-        method: 'GET',
-      })
-
-      const tasks = await response.json()
-      setTask(tasks)
-    }
-
     fetchTasks()
   }, [])
 
@@ -44,7 +43,7 @@ const Tasks = () => {
       return toast.error('Erro ao adicionar tarefa. Por favor, tente novamente')
     }
 
-    setTask([...tasks, task])
+    await fetchTasks()
     toast.success('Tarefa adicionada com sucesso!')
   }
 
@@ -75,17 +74,8 @@ const Tasks = () => {
     setTask(updateTask)
   }
 
-  const handleTaskDeleteClick = async (taskId) => {
-    const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
-      method: 'DELETE',
-    })
-
-    if (!response.ok) {
-      return toast.error('Erro ao deletar tarefa. Por favor, tente novamente')
-    }
-
-    const newTasks = tasks.filter((tasks) => tasks.id !== taskId)
-    setTask(newTasks)
+  const onDeleteTaskSucess = async () => {
+    await fetchTasks()
     toast.success('Tarefa Deletada com sucesso!')
   }
 
@@ -99,7 +89,7 @@ const Tasks = () => {
           <h2 className="text-xl font-semibold">Minhas Tarefas</h2>
         </div>
         <div className="flex items-center gap-3">
-          <Button color="ghost" onClick={() => setTask([''])}>
+          <Button color="ghost" onClick={() => setTask([])}>
             Limpar Tarefas <TrashIcon />
           </Button>
           <Button color="primary" onClick={() => setaddTaskDialogIsOpen(true)}>
@@ -121,7 +111,7 @@ const Tasks = () => {
               key={task.id}
               task={task}
               handleCheckboxClick={handleTaskCheckboxClick}
-              handleDeleteClick={handleTaskDeleteClick}
+              onDeleteSucess={onDeleteTaskSucess}
             />
           ))}
         </div>
@@ -132,7 +122,7 @@ const Tasks = () => {
               key={task.id}
               task={task}
               handleCheckboxClick={handleTaskCheckboxClick}
-              handleDeleteClick={handleTaskDeleteClick}
+              onDeleteSucess={onDeleteTaskSucess}
             />
           ))}
         </div>
@@ -143,7 +133,7 @@ const Tasks = () => {
               key={task.id}
               task={task}
               handleCheckboxClick={handleTaskCheckboxClick}
-              handleDeleteClick={handleTaskDeleteClick}
+              onDeleteSucess={onDeleteTaskSucess}
             />
           ))}
         </div>
