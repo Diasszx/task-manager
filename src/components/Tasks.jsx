@@ -24,7 +24,6 @@ const Tasks = () => {
     const response = await fetch('http://localhost:3000/tasks', {
       method: 'GET',
     })
-
     const tasks = await response.json()
     setTask(tasks)
   }
@@ -36,6 +35,10 @@ const Tasks = () => {
   const onSubmitTaskSucess = async () => {
     await fetchTasks()
     toast.success('Tarefa adicionada com sucesso!')
+  }
+
+  const onTaskSubmitError = () => {
+    return toast.error('Erro ao adicionar tarefa. Por favor, tente novamente')
   }
 
   const handleTaskCheckboxClick = (taskId) => {
@@ -64,10 +67,6 @@ const Tasks = () => {
   const onDeleteTaskSucess = async () => {
     await fetchTasks()
     toast.success('Tarefa Deletada com sucesso!')
-  }
-
-  const onTaskSubmitError = () => {
-    return toast.error('Erro ao adicionar tarefa. Por favor, tente novamente')
   }
 
   return (
