@@ -20,6 +20,9 @@ const Button = ({
         small: 'py-1 text-xs',
         large: 'py-3 text-sm',
       },
+      disabled: {
+        true: 'cursor-not-allowed opacity-50 hover:opacity-50',
+      },
     },
     defaultVariants: {
       color: 'primary',
@@ -29,7 +32,12 @@ const Button = ({
 
   return (
     <button
-      className={button({ color: color, size: size, className })}
+      className={button({
+        color: color,
+        size: size,
+        disabled: rest.disabled,
+        className,
+      })}
       {...rest}
     >
       {children}

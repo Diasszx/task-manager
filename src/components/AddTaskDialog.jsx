@@ -3,28 +3,33 @@ import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { v4 } from 'uuid'
 
+import { LoaderIcon } from '../assets/icons'
 import Button from './Button'
 import Input from './Input'
 import TimeSelect from './TimeSelect'
 
-const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
+const AddTaskDialog = ({
+  isOpen,
+  handleClose,
+  onSubmitSucess,
+  onSubmitError,
+}) => {
   const [showAnimation, setShowAnimation] = useState(false)
   const descriptionRef = useRef(null)
   const titleRef = useRef(null)
   const timeRef = useRef(null)
   const [errors, setErros] = useState([])
+  const [submitIsLoading, setsubmitIsLoading] = useState(false)
 
   useEffect(() => {
     if (isOpen) {
       setShowAnimation(true)
     }
-
     if (!isOpen) {
       if (titleRef.current) titleRef.current.value = ''
       if (descriptionRef.current) descriptionRef.current.value = ''
     }
   }, [isOpen])
-
   if (!isOpen) return null
 
   const handleSaveClick = () => {
@@ -36,30 +41,42 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
     if (!title.trim()) {
       newErros.push({ inputName: 'title', message: 'O título é obrigatório!' })
     }
-
     if (!description.trim()) {
       newErros.push({
         inputName: 'description',
         message: 'A descrição é obrigatória!',
       })
     }
-
     if (!time) {
       newErros.push({ inputName: 'time', message: 'O horário é obrigatório!' })
     }
-
     if (newErros.length > 0) {
       setErros(newErros)
       return
     }
-
-    handleSubmit({
+    handleSubmitClick({
       id: v4(),
       title,
       description,
       status: 'not_started',
       time,
     })
+  }
+
+  const handleSubmitClick = async (task) => {
+    if (submitIsLoading) return
+    setsubmitIsLoading(true)
+
+    const response = await fetch('http://localhost:3000/tasks', {
+      method: 'POST',
+      body: JSON.stringify(task),
+    })
+    if (!response.ok) {
+      setsubmitIsLoading(false)
+      return onSubmitError()
+    }
+    await onSubmitSucess()
+    setsubmitIsLoading(false)
     handleClose()
   }
 
@@ -94,14 +111,20 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
             id="title"
             ref={titleRef}
             errorMessage={titleError?.message}
+            disabled={submitIsLoading}
           />
-          <TimeSelect ref={timeRef} errorMessage={timeError?.message} />
+          <TimeSelect
+            ref={timeRef}
+            errorMessage={timeError?.message}
+            disabled={submitIsLoading}
+          />
           <Input
             placeholder="Descreva a tarefa"
             label="Descrição"
             id="description"
             ref={descriptionRef}
             errorMessage={descriptionError?.message}
+            disabled={submitIsLoading}
           />
           <div className="flex gap-3">
             <Button
@@ -112,8 +135,17 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
             >
               Cancelar
             </Button>
-            <Button size="large" className="w-full" onClick={handleSaveClick}>
-              Salvar
+            <Button
+              size="large"
+              className="w-full"
+              onClick={handleSaveClick}
+              disabled={submitIsLoading}
+            >
+              {submitIsLoading ? (
+                <LoaderIcon className="animate-spin text-brand-white" />
+              ) : (
+                'Salvar'
+              )}
             </Button>
           </div>
         </div>

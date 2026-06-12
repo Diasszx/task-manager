@@ -33,16 +33,7 @@ const Tasks = () => {
     fetchTasks()
   }, [])
 
-  const handleAddTaskSubmit = async (task) => {
-    const response = await fetch('http://localhost:3000/tasks', {
-      method: 'POST',
-      body: JSON.stringify(task),
-    })
-
-    if (!response.ok) {
-      return toast.error('Erro ao adicionar tarefa. Por favor, tente novamente')
-    }
-
+  const onSubmitTaskSucess = async () => {
     await fetchTasks()
     toast.success('Tarefa adicionada com sucesso!')
   }
@@ -52,22 +43,18 @@ const Tasks = () => {
       if (taskId != task.id) {
         return task
       }
-
       if (task.status == 'not_started') {
         toast.success('Tarefa iniciada com sucesso!')
         return { ...task, status: 'in_progress' }
       }
-
       if (task.status == 'in_progress') {
         toast.success('Tarefa concluída com sucesso!')
         return { ...task, status: 'done' }
       }
-
       if (task.status == 'done') {
         toast.success('Tarefa reiniciada com sucesso!')
         return { ...task, status: 'not_started' }
       }
-
       return task
     })
 
@@ -77,6 +64,10 @@ const Tasks = () => {
   const onDeleteTaskSucess = async () => {
     await fetchTasks()
     toast.success('Tarefa Deletada com sucesso!')
+  }
+
+  const onTaskSubmitError = () => {
+    return toast.error('Erro ao adicionar tarefa. Por favor, tente novamente')
   }
 
   return (
@@ -99,7 +90,8 @@ const Tasks = () => {
           <AddTaskDialog
             isOpen={addTaskDialogIsOpen}
             handleClose={() => setaddTaskDialogIsOpen(false)}
-            handleSubmit={handleAddTaskSubmit}
+            onSubmitSucess={onSubmitTaskSucess}
+            onSubmitError={onTaskSubmitError}
           ></AddTaskDialog>
         </div>
       </div>

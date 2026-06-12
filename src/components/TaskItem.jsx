@@ -11,17 +11,14 @@ const TaskItem = ({ task, handleCheckboxClick, onDeleteSucess }) => {
 
   const handleDeleteClick = async () => {
     if (deleteIsLoading) return
-
     setDeleteIsLoading(true)
     const response = await fetch(`http://localhost:3000/tasks/${task.id}`, {
       method: 'DELETE',
     })
-
     if (!response.ok) {
       setDeleteIsLoading(false)
       return toast.error('Erro ao deletar tarefa. Por favor, tente novamente')
     }
-
     await onDeleteSucess()
     setDeleteIsLoading(false)
   }
@@ -30,11 +27,9 @@ const TaskItem = ({ task, handleCheckboxClick, onDeleteSucess }) => {
     if (task.status === 'done') {
       return 'bg-brand-primary text-[#002C2E] '
     }
-
     if (task.status === 'in_progress') {
       return 'bg-brand-process text-brand-process'
     }
-
     if (task.status === 'not_started') {
       return 'bg-brand-dark-blue text-[#002C2E] bg-opacity-10'
     }
@@ -57,7 +52,7 @@ const TaskItem = ({ task, handleCheckboxClick, onDeleteSucess }) => {
           />
           {task.status == 'done' && <CheckIcon />}
           {task.status == 'in_progress' && (
-            <LoaderIcon className="animate-spin" />
+            <LoaderIcon className="animate-spin text-brand-white" />
           )}
         </label>
         <span className="text-sm">{task.title}</span>
