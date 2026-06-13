@@ -1,9 +1,11 @@
+import { NavLink } from 'react-router-dom'
+
 import { HomeIcon, TasksIcon } from '../assets/icons'
 import SidebarButton from './SidebarButton'
 
 const Sidebar = () => {
   return (
-    <div className="h-screen w-72 bg-white">
+    <aside className="h-screen w-72 bg-white">
       <div className="space-y-4 px-8 py-6">
         <h1 className="text-xl font-semibold text-brand-primary">
           Task Manager
@@ -14,15 +16,24 @@ const Sidebar = () => {
         </p>
       </div>
       <div className="flex flex-col gap-2 p-2">
-        <SidebarButton color="unselected">
-          <HomeIcon />
-          Inicio
-        </SidebarButton>
-        <SidebarButton color="selected">
-          <TasksIcon /> Minhas Tarefas
-        </SidebarButton>
+        <NavLink to="/">
+          {({ isActive }) => (
+            <SidebarButton color={isActive ? 'selected' : 'unselected'}>
+              <HomeIcon />
+              Inicio
+            </SidebarButton>
+          )}
+        </NavLink>
+        <NavLink to="/tasks">
+          {({ isActive }) => (
+            <SidebarButton color={isActive ? 'selected' : 'unselected'}>
+              <TasksIcon />
+              Minhas Tarefas
+            </SidebarButton>
+          )}
+        </NavLink>
       </div>
-    </div>
+    </aside>
   )
 }
 
