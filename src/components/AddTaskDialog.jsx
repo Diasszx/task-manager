@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom'
 import { v4 } from 'uuid'
 
 import { LoaderIcon } from '../assets/icons'
+import { createTask } from '../services/tasks'
 import Button from './Button'
 import Input from './Input'
 import TimeSelect from './TimeSelect'
@@ -66,11 +67,8 @@ const AddTaskDialog = ({
   const handleSubmitClick = async (task) => {
     if (submitIsLoading) return
     setsubmitIsLoading(true)
+    const response = await createTask(task)
 
-    const response = await fetch('http://localhost:3000/tasks', {
-      method: 'POST',
-      body: JSON.stringify(task),
-    })
     if (!response.ok) {
       setsubmitIsLoading(false)
       return onSubmitError()

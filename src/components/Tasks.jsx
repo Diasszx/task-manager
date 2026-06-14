@@ -8,6 +8,7 @@ import {
   SunIcon,
   TrashIcon,
 } from '../assets/icons'
+import { fetchTasks } from '../services/tasks'
 import AddTaskDialog from './AddTaskDialog'
 import Button from './Button'
 import TaskItem from './TaskItem'
@@ -20,20 +21,18 @@ const Tasks = () => {
   const afternoonTasks = tasks.filter((task) => task.time == 'afternoon')
   const eveningTasks = tasks.filter((task) => task.time == 'evening')
 
-  const fetchTasks = async () => {
-    const response = await fetch('http://localhost:3000/tasks', {
-      method: 'GET',
-    })
+  const loadTasks = async () => {
+    const response = await fetchTasks()
     const tasks = await response.json()
     setTask(tasks)
   }
 
   useEffect(() => {
-    fetchTasks()
+    loadTasks()
   }, [])
 
   const onSubmitTaskSucess = async () => {
-    await fetchTasks()
+    await loadTasks()
     toast.success('Tarefa adicionada com sucesso!')
   }
 
@@ -65,7 +64,7 @@ const Tasks = () => {
   }
 
   const onDeleteTaskSucess = async () => {
-    await fetchTasks()
+    await loadTasks()
     toast.success('Tarefa Deletada com sucesso!')
   }
 

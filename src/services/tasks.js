@@ -1,17 +1,17 @@
 import { apiFetch } from './api'
 
-export const fetchTasks = () => {
-  apiFetch('/tasks')
+export const fetchTasks = async () => {
+  return apiFetch('/tasks')
 }
 
-export const fetchTasksById = (taskId) => {
-  apiFetch(`/tasks/${taskId}`)
+export const fetchTasksById = async (taskId) => {
+  return apiFetch(`/tasks/${taskId}`)
 }
 
-export const createTask = (task) => {
-  apiFetch('/tasks', { method: 'POST', body: JSON.stringify(task) })
+export const createTask = async (task) => {
+  return apiFetch('/tasks', { method: 'POST', body: JSON.stringify(task) })
 }
 
-export const deleteTask = (taskId) => {
-  apiFetch(`/tasks/${taskId}`, { method: 'DELETE' })
+export const deleteTask = async (taskId) => {
+  return apiFetch(`/tasks/${taskId}`, { method: 'DELETE' })
 }

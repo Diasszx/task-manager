@@ -5,6 +5,7 @@ import { toast } from 'sonner'
 
 import { CheckIcon, DetailIcon, LoaderIcon } from '../assets/icons'
 import TrashIcon from '../assets/icons/trash.svg?react'
+import { deleteTask } from '../services/tasks'
 import Button from './Button'
 
 const TaskItem = ({ task, handleCheckboxClick, onDeleteSucess }) => {
@@ -13,9 +14,8 @@ const TaskItem = ({ task, handleCheckboxClick, onDeleteSucess }) => {
   const handleDeleteClick = async () => {
     if (deleteIsLoading) return
     setDeleteIsLoading(true)
-    const response = await fetch(`http://localhost:3000/tasks/${task.id}`, {
-      method: 'DELETE',
-    })
+    const response = await deleteTask(task.id)
+
     if (!response.ok) {
       setDeleteIsLoading(false)
       return toast.error('Erro ao deletar tarefa. Por favor, tente novamente')
