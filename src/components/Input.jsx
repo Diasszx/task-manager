@@ -19,7 +19,7 @@ const Input = ({ ref, id, label, errorMessage, ...rest }) => {
   )
 }
 
-InputLabel.PropTypes = {
+Input.PropTypes = {
   label: PropTypes.string.isRequired,
   errorMessage: PropTypes.string,
   placeHolder: PropTypes.string,
