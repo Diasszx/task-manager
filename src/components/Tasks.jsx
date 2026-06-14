@@ -22,8 +22,7 @@ const Tasks = () => {
   const eveningTasks = tasks.filter((task) => task.time == 'evening')
 
   const loadTasks = async () => {
-    const response = await fetchTasks()
-    const tasks = await response.json()
+    const tasks = await fetchTasks()
     setTask(tasks)
   }
 
