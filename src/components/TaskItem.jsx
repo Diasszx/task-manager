@@ -13,15 +13,16 @@ const TaskItem = ({ task, handleCheckboxClick, onDeleteSucess }) => {
 
   const handleDeleteClick = async () => {
     if (deleteIsLoading) return
-    setDeleteIsLoading(true)
-    const response = await deleteTask(task.id)
 
-    if (!response.ok) {
+    try {
+      setDeleteIsLoading(true)
+      await deleteTask(task.id)
+      await onDeleteSucess()
+    } catch {
+      toast.error('Erro ao deletar tarefa. Por favor, tente novamente')
+    } finally {
       setDeleteIsLoading(false)
-      return toast.error('Erro ao deletar tarefa. Por favor, tente novamente')
     }
-    await onDeleteSucess()
-    setDeleteIsLoading(false)
   }
 
   const getStatusClasses = () => {
@@ -49,7 +50,7 @@ const TaskItem = ({ task, handleCheckboxClick, onDeleteSucess }) => {
             type="checkbox"
             checked={task.status == 'in_progress'}
             className="absolute h-full w-full cursor-pointer opacity-0"
-            onClick={() => handleCheckboxClick(task.id)}
+            onChange={() => handleCheckboxClick(task.id)}
           />
           {task.status == 'done' && <CheckIcon />}
           {task.status == 'in_progress' && (

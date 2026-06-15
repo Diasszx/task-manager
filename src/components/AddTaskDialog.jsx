@@ -66,16 +66,17 @@ const AddTaskDialog = ({
 
   const handleSubmitClick = async (task) => {
     if (submitIsLoading) return
-    setsubmitIsLoading(true)
-    const response = await createTask(task)
 
-    if (!response.ok) {
+    try {
+      setsubmitIsLoading(true)
+      await createTask(task)
+      await onSubmitSucess()
+      handleClose()
+    } catch {
+      onSubmitError()
+    } finally {
       setsubmitIsLoading(false)
-      return onSubmitError()
     }
-    await onSubmitSucess()
-    setsubmitIsLoading(false)
-    handleClose()
   }
 
   const titleError = errors.find((error) => error.inputName === 'title')

@@ -23,6 +23,7 @@ const Tasks = () => {
 
   const loadTasks = async () => {
     const tasks = await fetchTasks()
+
     setTask(tasks)
   }
 

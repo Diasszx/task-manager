@@ -13,9 +13,9 @@ const SidebarButton = ({ children, color }) => {
   })
 
   return (
-    <a href="#" className={sideBarButton({ color })}>
+    <div href="#" className={sideBarButton({ color })}>
       {children}
-    </a>
+    </div>
   )
 }
 

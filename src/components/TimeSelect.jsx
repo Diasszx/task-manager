@@ -1,6 +1,6 @@
 import InputLabel from './InputLabel'
 
-const TimeSelect = ({ ref, ...rest }) => {
+const TimeSelect = ({ ref, errorMessage, ...rest }) => {
   return (
     <div className="flex flex-col gap-1 text-left">
       <InputLabel html="time">Horário</InputLabel>
@@ -16,7 +16,7 @@ const TimeSelect = ({ ref, ...rest }) => {
         <option value="evening">Noite</option>
       </select>
 
-      {rest.errorMessage && (
+      {errorMessage && (
         <p className="text-left text-xs text-red-500">{rest.errorMessage}</p>
       )}
     </div>
