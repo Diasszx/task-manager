@@ -14,6 +14,7 @@ const Button = ({
       color: {
         primary: 'bg-brand-primary text-white',
         secondary: 'bg-brand-light-gray text-brand-dark-blue',
+        tertiary: 'bg-brand-danger text-white',
         ghost: 'bg-transparent text-brand-dark-gray',
       },
       size: {

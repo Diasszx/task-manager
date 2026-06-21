@@ -15,3 +15,10 @@ export const createTask = async (task) => {
 export const deleteTask = async (taskId) => {
   return apiFetch(`/tasks/${taskId}`, { method: 'DELETE' })
 }
+
+export const updateTask = async (taskId, updates) => {
+  return apiFetch(`/tasks/${taskId}`, {
+    method: 'PATCH',
+    body: JSON.stringify(updates),
+  })
+}
