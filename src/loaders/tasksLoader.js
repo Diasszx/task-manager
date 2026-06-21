@@ -1,4 +1,4 @@
-import { queryClient } from '../main.jsx'
+import queryClient from '../queryClient'
 import { fetchTasks } from '../services/tasks'
 
 export const tasksLoader = async () => {
