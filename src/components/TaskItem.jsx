@@ -1,5 +1,5 @@
+import { useMutation } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 
@@ -9,20 +9,19 @@ import { deleteTask } from '../services/tasks'
 import Button from './Button'
 
 const TaskItem = ({ task, handleCheckboxClick, onDeleteSucess }) => {
-  const [deleteIsLoading, setDeleteIsLoading] = useState(false)
+  const mutation = useMutation({
+    mutationFn: (taskId) => deleteTask(taskId),
+    onSuccess: async (_, taskId) => {
+      await onDeleteSucess(taskId)
+    },
+    onError: () => {
+      toast.error('Erro ao deletar tarefa. Por favor, tente novamente!')
+    },
+  })
 
   const handleDeleteClick = async () => {
-    if (deleteIsLoading) return
-
-    try {
-      setDeleteIsLoading(true)
-      await deleteTask(task.id)
-      await onDeleteSucess(task.id)
-    } catch {
-      toast.error('Erro ao deletar tarefa. Por favor, tente novamente')
-    } finally {
-      setDeleteIsLoading(false)
-    }
+    if (mutation.isPending) return
+    mutation.mutate(task.id)
   }
 
   const getStatusClasses = () => {
@@ -63,9 +62,9 @@ const TaskItem = ({ task, handleCheckboxClick, onDeleteSucess }) => {
         <Button
           color="ghost"
           onClick={handleDeleteClick}
-          disabled={deleteIsLoading}
+          disabled={mutation.isPending}
         >
-          {deleteIsLoading ? (
+          {mutation.isPending ? (
             <LoaderIcon className="animate-spin text-brand-text-gray" />
           ) : (
             <TrashIcon className="text-red-500 transition hover:opacity-70" />
