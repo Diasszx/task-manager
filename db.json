@@ -2,17 +2,45 @@
   "tasks": [
     {
       "id": "okvLg-S1rVw",
-      "status": "not_started",
+      "status": "done",
       "title": "DASDAS",
       "time": "afternoon",
       "description": "ASDASD"
     },
     {
       "id": "RpG2DVyenfo",
-      "status": "not_started",
+      "status": "done",
       "title": "DFGDF",
       "time": "evening",
       "description": "ASFSAGSFASD"
+    },
+    {
+      "id": "h3I1TZAtm0s",
+      "status": "done",
+      "title": "testete",
+      "time": "evening",
+      "description": "testaetse"
+    },
+    {
+      "id": "EARMd0GPxOQ",
+      "status": "in_progress",
+      "title": "testes",
+      "time": "morning",
+      "description": "testata"
+    },
+    {
+      "id": "JzFLNPaa3V8",
+      "status": "in_progress",
+      "title": "teste",
+      "time": "morning",
+      "description": "teste"
+    },
+    {
+      "id": "lZshDyT-FWg",
+      "status": "in_progress",
+      "title": "teste",
+      "time": "morning",
+      "description": "teste"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -26,13 +26,13 @@ const TaskItem = ({ task, handleCheckboxClick, onDeleteSucess }) => {
 
   const getStatusClasses = () => {
     if (task.status === 'done') {
-      return 'bg-brand-primary text-[#002C2E] '
+      return 'bg-brand-primary text-black '
     }
     if (task.status === 'in_progress') {
       return 'bg-brand-process text-brand-process'
     }
     if (task.status === 'not_started') {
-      return 'bg-brand-dark-blue text-[#002C2E] bg-opacity-10'
+      return 'bg-brand-dark-blue text-black bg-opacity-10'
     }
   }
 
