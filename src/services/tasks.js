@@ -9,16 +9,16 @@ export const fetchTasksById = async (taskId) => {
 }
 
 export const createTask = async (task) => {
-  return apiFetch('/tasks', { method: 'POST', body: JSON.stringify(task) })
+  return apiFetch('/tasks', { method: 'POST', data: task })
 }
 
 export const deleteTask = async (taskId) => {
   return apiFetch(`/tasks/${taskId}`, { method: 'DELETE' })
 }
 
-export const updateTask = async (taskId, updates) => {
+export const updateTask = async (taskId, task) => {
   return apiFetch(`/tasks/${taskId}`, {
     method: 'PATCH',
-    body: JSON.stringify(updates),
+    data: task,
   })
 }

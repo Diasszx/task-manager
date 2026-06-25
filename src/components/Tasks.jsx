@@ -27,14 +27,6 @@ const Tasks = () => {
   const afternoonTasks = tasks.filter((task) => task.time == 'afternoon')
   const eveningTasks = tasks.filter((task) => task.time == 'evening')
 
-  const onSubmitTaskSucess = async (newTask) => {
-    queryClient.setQueryData(['tasks'], (currentTasks = []) => [
-      ...currentTasks,
-      newTask,
-    ])
-    toast.success('Tarefa adicionada com sucesso!')
-  }
-
   const onTaskSubmitError = () => {
     return toast.error('Erro ao adicionar tarefa. Por favor, tente novamente')
   }
@@ -87,7 +79,6 @@ const Tasks = () => {
           <AddTaskDialog
             isOpen={addTaskDialogIsOpen}
             handleClose={() => setaddTaskDialogIsOpen(false)}
-            onSubmitSucess={onSubmitTaskSucess}
             onSubmitError={onTaskSubmitError}
           ></AddTaskDialog>
         </div>

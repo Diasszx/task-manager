@@ -5,12 +5,12 @@ import { useForm } from 'react-hook-form'
 import { v4 } from 'uuid'
 
 import { LoaderIcon } from '../assets/icons'
-import useCreateTasks from '../hooks/data/use-create-tasks'
+import useCreateTasks from '../hooks/data/use-add-tasks'
 import Button from './Button'
 import Input from './Input'
 import TimeSelect from './TimeSelect'
 
-const AddTaskDialog = ({ isOpen, handleClose, onSubmitSucess }) => {
+const AddTaskDialog = ({ isOpen, handleClose }) => {
   const { mutate: createTaskMutation, isPending: isCreating } = useCreateTasks()
   const {
     handleSubmit,
@@ -40,8 +40,7 @@ const AddTaskDialog = ({ isOpen, handleClose, onSubmitSucess }) => {
       ...data,
     }
     createTaskMutation(newTask, {
-      onSuccess: async (createdTask) => {
-        await onSubmitSucess(createdTask)
+      onSuccess: () => {
         reset()
         handleClose()
       },

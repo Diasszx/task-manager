@@ -22,6 +22,9 @@ export const useUpdateTask = (taskId) => {
       toast.success('Tarefa atualizada com sucesso!')
       navigate('/tasks')
     },
+    onError: () => {
+      toast.error('Erro ao atualizar tarefa. Por favor, tente novamente!')
+    },
   })
 }
 
