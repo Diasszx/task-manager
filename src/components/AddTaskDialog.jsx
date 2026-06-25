@@ -1,18 +1,17 @@
-import { useMutation } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { v4 } from 'uuid'
 
 import { LoaderIcon } from '../assets/icons'
-import { createTask } from '../services/tasks'
+import useCreateTasks from '../hooks/data/use-create-tasks'
 import Button from './Button'
 import Input from './Input'
 import TimeSelect from './TimeSelect'
 
 const AddTaskDialog = ({ isOpen, handleClose, onSubmitSucess }) => {
+  const { mutate: createTaskMutation, isPending: isCreating } = useCreateTasks()
   const {
     handleSubmit,
     register,
@@ -20,18 +19,6 @@ const AddTaskDialog = ({ isOpen, handleClose, onSubmitSucess }) => {
     formState: { errors },
   } = useForm()
   const [showAnimation, setShowAnimation] = useState(false)
-
-  const mutation = useMutation({
-    mutationFn: (newTask) => createTask(newTask),
-    onSuccess: async (createdTask) => {
-      await onSubmitSucess(createdTask)
-      reset()
-      handleClose()
-    },
-    onError: () => {
-      toast.error('Erro ao criar tarefa. Por favor, tente novamente.')
-    },
-  })
 
   useEffect(() => {
     if (isOpen) {
@@ -45,15 +32,20 @@ const AddTaskDialog = ({ isOpen, handleClose, onSubmitSucess }) => {
   if (!isOpen) return null
 
   const handleSubmitClick = async (data) => {
-    if (mutation.isPending) return
-    console.log(data)
+    if (isCreating) return
 
     const newTask = {
       id: v4(),
       status: 'not_started',
       ...data,
     }
-    mutation.mutate(newTask)
+    createTaskMutation(newTask, {
+      onSuccess: async (createdTask) => {
+        await onSubmitSucess(createdTask)
+        reset()
+        handleClose()
+      },
+    })
   }
 
   const dialogNewTask = (
@@ -79,7 +71,7 @@ const AddTaskDialog = ({ isOpen, handleClose, onSubmitSucess }) => {
               placeholder="Título da tarefa"
               label="Título"
               id="title"
-              disabled={mutation.isPending}
+              disabled={isCreating}
               {...register('title', {
                 required: 'O título é obrigatório!',
                 validate: (value) => {
@@ -93,7 +85,7 @@ const AddTaskDialog = ({ isOpen, handleClose, onSubmitSucess }) => {
             />
             <TimeSelect
               errorMessage={errors?.time?.message}
-              disabled={mutation.isPending}
+              disabled={isCreating}
               {...register('time', {
                 required: 'O horário é obrigatório!',
                 validate: (value) => {
@@ -109,7 +101,7 @@ const AddTaskDialog = ({ isOpen, handleClose, onSubmitSucess }) => {
               label="Descrição"
               id="description"
               errorMessage={errors?.description?.message}
-              disabled={mutation.isPending}
+              disabled={isCreating}
               {...register('description', {
                 required: 'A descrição é obrigatória!',
                 validate: (value) => {
@@ -133,9 +125,9 @@ const AddTaskDialog = ({ isOpen, handleClose, onSubmitSucess }) => {
                 size="large"
                 className="w-full"
                 type="submit"
-                disabled={mutation.isPending}
+                disabled={isCreating}
               >
-                {mutation.isPending ? (
+                {isCreating ? (
                   <LoaderIcon className="animate-spin text-brand-white" />
                 ) : (
                   'Salvar'

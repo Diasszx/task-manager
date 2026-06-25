@@ -3,21 +3,29 @@ import { Link, useLoaderData, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
 import { TrashIcon } from '../assets/icons'
+import { LoaderIcon } from '../assets/icons'
 import ArrowLeftIcon from '../assets/icons/arrow-left.svg?react'
 import ChevronRightIcon from '../assets/icons/chevron-right.svg?react'
 import Button from '../components/Button'
 import Input from '../components/Input'
 import TimeSelect from '../components/TimeSelect'
-import { deleteTask, updateTask } from '../services/tasks'
+import useDeleteTask from '../hooks/data/use-delete-tasks'
+import useUpdateTask from '../hooks/data/use-update-tasks'
 
 const TaskDetailsPage = () => {
   const task = useLoaderData()
+  const { mutate: deleteTaskMutation, isPending: isDeleting } = useDeleteTask(
+    task.id
+  )
+  const { mutate: updateTaskMutation, isPending: isUpdating } = useUpdateTask(
+    task.id
+  )
 
   const navigate = useNavigate()
   const {
     handleSubmit,
     register,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({
     defaultValues: {
       title: task.title,
@@ -27,24 +35,18 @@ const TaskDetailsPage = () => {
   })
 
   const handleSubmitClick = async (data) => {
-    if (isSubmitting) return
-
-    await updateTask(task.id, {
-      title: data.title.trim(),
-      time: data.time.trim(),
-      description: data.description.trim(),
-    })
-
-    toast.success('Tarefa atualizada com sucesso!')
-    {
-      navigate('/tasks')
-    }
+    if (isUpdating) return
+    updateTaskMutation(data)
   }
 
   const onDeleteTaskSucess = async () => {
-    await deleteTask(task.id)
-    toast.success('Tarefa Deletada com sucesso!')
-    navigate('/tasks')
+    if (isDeleting) return
+    deleteTaskMutation(undefined, {
+      onSuccess: () => {
+        toast.success('Tarefa deletada com sucesso!')
+        navigate('/tasks')
+      },
+    })
   }
 
   return (
@@ -79,8 +81,19 @@ const TaskDetailsPage = () => {
         </div>
 
         <div className="flex items-center gap-3">
-          <Button color="tertiary" onClick={onDeleteTaskSucess}>
-            <TrashIcon /> Deletar Tarefa
+          <Button
+            color="tertiary"
+            onClick={onDeleteTaskSucess}
+            disabled={isDeleting}
+          >
+            {isDeleting ? (
+              <LoaderIcon className="animate-spin text-brand-white" />
+            ) : (
+              <>
+                <TrashIcon />
+                Deletar Tarefa
+              </>
+            )}
           </Button>
         </div>
       </div>
@@ -131,8 +144,17 @@ const TaskDetailsPage = () => {
           </div>
         </div>
         <div className="mt-6 flex w-full justify-end gap-3">
-          <Button size="large" color="primary" type="submit">
-            Salvar
+          <Button
+            size="large"
+            color="primary"
+            type="submit"
+            disabled={isUpdating}
+          >
+            {isUpdating ? (
+              <LoaderIcon className="animate-spin text-brand-white" />
+            ) : (
+              'Salvar'
+            )}
           </Button>
         </div>
       </form>

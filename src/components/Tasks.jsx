@@ -63,6 +63,7 @@ const Tasks = () => {
     queryClient.setQueryData(['tasks'], (currentTask = []) =>
       currentTask.filter((t) => t.id !== taskDeletedId)
     )
+    queryClient.removeQueries({ queryKey: ['task', taskDeletedId] })
     toast.success('Tarefa Deletada com sucesso!')
   }
 

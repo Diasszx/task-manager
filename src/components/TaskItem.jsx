@@ -1,27 +1,23 @@
-import { useMutation } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { toast } from 'sonner'
 
 import { CheckIcon, DetailIcon, LoaderIcon } from '../assets/icons'
 import TrashIcon from '../assets/icons/trash.svg?react'
-import { deleteTask } from '../services/tasks'
+import useDeleteTask from '../hooks/data/use-delete-tasks'
 import Button from './Button'
 
 const TaskItem = ({ task, handleCheckboxClick, onDeleteSucess }) => {
-  const mutation = useMutation({
-    mutationFn: (taskId) => deleteTask(taskId),
-    onSuccess: async (_, taskId) => {
-      await onDeleteSucess(taskId)
-    },
-    onError: () => {
-      toast.error('Erro ao deletar tarefa. Por favor, tente novamente!')
-    },
-  })
+  const { mutate: deleteTaskMutation, isPending: isDeleting } = useDeleteTask(
+    task.id
+  )
 
   const handleDeleteClick = async () => {
-    if (mutation.isPending) return
-    mutation.mutate(task.id)
+    if (isDeleting) return
+    deleteTaskMutation(undefined, {
+      onSuccess: async (_, taskId) => {
+        await onDeleteSucess(taskId)
+      },
+    })
   }
 
   const getStatusClasses = () => {
@@ -59,12 +55,8 @@ const TaskItem = ({ task, handleCheckboxClick, onDeleteSucess }) => {
         <span className="text-sm">{task.title}</span>
       </div>
       <div className="flex items-center gap-3">
-        <Button
-          color="ghost"
-          onClick={handleDeleteClick}
-          disabled={mutation.isPending}
-        >
-          {mutation.isPending ? (
+        <Button color="ghost" onClick={handleDeleteClick} disabled={isDeleting}>
+          {isDeleting ? (
             <LoaderIcon className="animate-spin text-brand-text-gray" />
           ) : (
             <TrashIcon className="text-red-500 transition hover:opacity-70" />
