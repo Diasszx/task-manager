@@ -2,13 +2,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
+import { taskMutations } from '../../keys/mutations'
 import { updateTask } from '../../services/tasks'
 
 export const useUpdateTask = (taskId) => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   return useMutation({
-    mutationKey: ['update-task', taskId],
+    mutationKey: taskMutations.update(taskId),
     mutationFn: (data) =>
       updateTask(taskId, {
         title: data.title.trim(),
