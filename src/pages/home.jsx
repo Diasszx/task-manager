@@ -50,6 +50,11 @@ const Home = () => {
           </span>
         </div>
         <div className="space-y-3">
+          {tasks.length == 0 && (
+            <p className="text-sm text-brand-text-gray">
+              Nenhuma tarefa cadastrada.
+            </p>
+          )}
           {tasks.map((task) => (
             <TaskItem key={task.id} task={task} />
           ))}
