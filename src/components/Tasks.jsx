@@ -22,9 +22,9 @@ const Tasks = () => {
     queryFn: fetchTasks,
   })
 
-  const morningTasks = tasks.filter((task) => task.time == 'morning')
-  const afternoonTasks = tasks.filter((task) => task.time == 'afternoon')
-  const eveningTasks = tasks.filter((task) => task.time == 'evening')
+  const morningTasks = tasks?.filter((task) => task.time == 'morning') ?? []
+  const afternoonTasks = tasks?.filter((task) => task.time == 'afternoon') ?? []
+  const eveningTasks = tasks?.filter((task) => task.time == 'evening') ?? []
 
   const onDeleteTaskSucess = async (taskDeletedId) => {
     queryClient.setQueryData(['tasks'], (currentTask = []) =>

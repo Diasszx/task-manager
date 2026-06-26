@@ -19,7 +19,7 @@ export const useUpdateTask = (taskId) => {
 
     onSuccess: (updatedTask) => {
       queryClient.setQueryData(['task', taskId], updatedTask)
-      queryClient.invalidateQueries('tasks')
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
       toast.success('Tarefa atualizada com sucesso!')
       navigate('/tasks')
     },
