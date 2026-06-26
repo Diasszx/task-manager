@@ -1,12 +1,16 @@
+import { useQueryClient } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { toast } from 'sonner'
 
 import { CheckIcon, DetailIcon, LoaderIcon } from '../assets/icons'
 import TrashIcon from '../assets/icons/trash.svg?react'
 import useDeleteTask from '../hooks/data/use-delete-tasks'
+import { fetchTasksById, updateTask } from '../services/tasks'
 import Button from './Button'
 
-const TaskItem = ({ task, handleCheckboxClick, onDeleteSucess }) => {
+const TaskItem = ({ task, onDeleteSucess }) => {
+  const queryClient = useQueryClient()
   const { mutate: deleteTaskMutation, isPending: isDeleting } = useDeleteTask(
     task.id
   )
@@ -18,6 +22,26 @@ const TaskItem = ({ task, handleCheckboxClick, onDeleteSucess }) => {
         await onDeleteSucess(taskId)
       },
     })
+  }
+
+  const handleTaskCheckboxClick = async (taskId) => {
+    const task = await fetchTasksById(taskId)
+
+    const statusMap = {
+      not_started: {
+        next: 'in_progress',
+        message: 'Tarefa iniciada com sucesso!',
+      },
+      in_progress: { next: 'done', message: 'Tarefa concluída com sucesso!' },
+      done: { next: 'not_started', message: 'Tarefa finalizada com sucesso!' },
+    }
+    const { next, message } = statusMap[task.status]
+
+    queryClient.setQueryData(['tasks'], (currentTask = []) =>
+      currentTask.map((t) => (t.id === taskId ? { ...t, status: next } : t))
+    )
+    toast.success(message)
+    await updateTask(taskId, { status: next })
   }
 
   const getStatusClasses = () => {
@@ -45,7 +69,7 @@ const TaskItem = ({ task, handleCheckboxClick, onDeleteSucess }) => {
             type="checkbox"
             checked={task.status == 'in_progress'}
             className="absolute h-full w-full cursor-pointer opacity-0"
-            onChange={() => handleCheckboxClick(task.id)}
+            onChange={() => handleTaskCheckboxClick(task.id)}
           />
           {task.status == 'done' && <CheckIcon />}
           {task.status == 'in_progress' && (

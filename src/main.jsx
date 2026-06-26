@@ -26,6 +26,7 @@ const router = createBrowserRouter([
         path: '/home',
         element: <Home />,
         index: true,
+        loader: tasksLoader,
       },
       {
         path: '/tasks',

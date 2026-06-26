@@ -8,7 +8,7 @@ import {
   SunIcon,
   TrashIcon,
 } from '../assets/icons'
-import { fetchTasks, fetchTasksById, updateTask } from '../services/tasks'
+import { fetchTasks } from '../services/tasks'
 import AddTaskDialog from './AddTaskDialog'
 import Button from './Button'
 import Header from './Header'
@@ -25,26 +25,6 @@ const Tasks = () => {
   const morningTasks = tasks.filter((task) => task.time == 'morning')
   const afternoonTasks = tasks.filter((task) => task.time == 'afternoon')
   const eveningTasks = tasks.filter((task) => task.time == 'evening')
-
-  const handleTaskCheckboxClick = async (taskId) => {
-    const task = await fetchTasksById(taskId)
-
-    const statusMap = {
-      not_started: {
-        next: 'in_progress',
-        message: 'Tarefa iniciada com sucesso!',
-      },
-      in_progress: { next: 'done', message: 'Tarefa concluída com sucesso!' },
-      done: { next: 'not_started', message: 'Tarefa finalizada com sucesso!' },
-    }
-    const { next, message } = statusMap[task.status]
-
-    queryClient.setQueryData(['tasks'], (currentTask = []) =>
-      currentTask.map((t) => (t.id === taskId ? { ...t, status: next } : t))
-    )
-    toast.success(message)
-    await updateTask(taskId, { status: next })
-  }
 
   const onDeleteTaskSucess = async (taskDeletedId) => {
     queryClient.setQueryData(['tasks'], (currentTask = []) =>
@@ -69,7 +49,6 @@ const Tasks = () => {
             <TaskItem
               key={task.id}
               task={task}
-              handleCheckboxClick={handleTaskCheckboxClick}
               onDeleteSucess={onDeleteTaskSucess}
             />
           ))}
@@ -85,7 +64,6 @@ const Tasks = () => {
             <TaskItem
               key={task.id}
               task={task}
-              handleCheckboxClick={handleTaskCheckboxClick}
               onDeleteSucess={onDeleteTaskSucess}
             />
           ))}
@@ -101,7 +79,6 @@ const Tasks = () => {
             <TaskItem
               key={task.id}
               task={task}
-              handleCheckboxClick={handleTaskCheckboxClick}
               onDeleteSucess={onDeleteTaskSucess}
             />
           ))}
