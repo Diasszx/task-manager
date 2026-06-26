@@ -16,7 +16,7 @@ const Sidebar = () => {
         </p>
       </div>
       <div className="flex flex-col gap-2 p-2">
-        <NavLink to="/">
+        <NavLink to="/home">
           {({ isActive }) => (
             <SidebarButton color={isActive ? 'selected' : 'unselected'}>
               <HomeIcon />

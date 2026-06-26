@@ -1,5 +1,4 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useState } from 'react'
 import { toast } from 'sonner'
 
 import {
@@ -12,6 +11,7 @@ import {
 import { fetchTasks, fetchTasksById, updateTask } from '../services/tasks'
 import AddTaskDialog from './AddTaskDialog'
 import Button from './Button'
+import Header from './Header'
 import TaskItem from './TaskItem'
 import TasksSeparator from './TasksSeparator'
 
@@ -22,14 +22,9 @@ const Tasks = () => {
     queryFn: fetchTasks,
   })
 
-  const [addTaskDialogIsOpen, setaddTaskDialogIsOpen] = useState(false)
   const morningTasks = tasks.filter((task) => task.time == 'morning')
   const afternoonTasks = tasks.filter((task) => task.time == 'afternoon')
   const eveningTasks = tasks.filter((task) => task.time == 'evening')
-
-  const onTaskSubmitError = () => {
-    return toast.error('Erro ao adicionar tarefa. Por favor, tente novamente')
-  }
 
   const handleTaskCheckboxClick = async (taskId) => {
     const task = await fetchTasksById(taskId)
@@ -61,28 +56,7 @@ const Tasks = () => {
 
   return (
     <div className="w-full px-8 py-16">
-      <div className="mb-6 flex w-full justify-between">
-        <div className="gap-1">
-          <span className="text-xs font-semibold text-brand-primary">
-            Minhas Tarefas
-          </span>
-          <h2 className="text-xl font-semibold">Minhas Tarefas</h2>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button color="ghost">
-            Limpar Tarefas <TrashIcon />
-          </Button>
-          <Button color="primary" onClick={() => setaddTaskDialogIsOpen(true)}>
-            Nova Tarefa
-            <AddIcon />
-          </Button>
-          <AddTaskDialog
-            isOpen={addTaskDialogIsOpen}
-            handleClose={() => setaddTaskDialogIsOpen(false)}
-            onSubmitError={onTaskSubmitError}
-          ></AddTaskDialog>
-        </div>
-      </div>
+      <Header title="Minhas Tarefas" subtitle="Minhas Tarefas"></Header>
       <div className="rounded-xl bg-white p-6">
         <div className="space-y-3">
           <TasksSeparator title="Manhã" icon={<SunIcon />} />
