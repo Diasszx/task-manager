@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 
 import App from './App.jsx'
 import Tasks from './components/Tasks.jsx'
@@ -22,6 +22,10 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     HydrateFallback: () => <div>Carregando...</div>,
     children: [
+      {
+        index: true,
+        element: <Navigate to="/tasks" replace />,
+      },
       {
         path: '/home',
         element: <Home />,
