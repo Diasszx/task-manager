@@ -19,7 +19,7 @@ const Home = () => {
   return (
     <div className="w-full px-8 py-16">
       <Header title="Início" subtitle="Início"></Header>
-      <div className="mb-6 grid grid-cols-4 gap-9">
+      <div className="mb-6 grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-9">
         <DashboardCards
           icon={<LayoutIcon />}
           mainText={totalTask.length}
