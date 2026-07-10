@@ -1,39 +1,40 @@
-import { NavLink } from 'react-router-dom'
+import SidebarContent from './SiderbarContent'
 
-import { HomeIcon, TasksIcon } from '../assets/icons'
-import SidebarButton from './SidebarButton'
-
-const Sidebar = () => {
+const Sidebar = ({ isOpen, onClose }) => {
   return (
-    <aside className="h-screen w-72 bg-white">
-      <div className="space-y-4 px-8 py-6">
-        <h1 className="text-xl font-semibold text-brand-primary">
-          Task Manager
-        </h1>
-        <p>
-          Um simples{'  '}
-          <span className="text-brand-primary">organizador de tarefas</span>
-        </p>
-      </div>
-      <div className="flex flex-col gap-2 p-2">
-        <NavLink to="/home">
-          {({ isActive }) => (
-            <SidebarButton color={isActive ? 'selected' : 'unselected'}>
-              <HomeIcon />
-              Inicio
-            </SidebarButton>
-          )}
-        </NavLink>
-        <NavLink to="/tasks">
-          {({ isActive }) => (
-            <SidebarButton color={isActive ? 'selected' : 'unselected'}>
-              <TasksIcon />
-              Minhas Tarefas
-            </SidebarButton>
-          )}
-        </NavLink>
-      </div>
-    </aside>
+    <>
+      {/* Sidebar desktop */}
+      <aside className="hidden min-h-screen w-72 shrink-0 bg-white md:block">
+        <SidebarContent />
+      </aside>
+
+      {/* Fundo escuro mobile */}
+      {isOpen && (
+        <button
+          type="button"
+          className="fixed inset-0 z-40 backdrop-blur md:hidden"
+          onClick={onClose}
+          aria-label="Fechar menu"
+        />
+      )}
+
+      {/* Sidebar mobile */}
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 w-72 bg-white transition-transform duration-300 md:hidden ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <div className="flex justify-end p-4">
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Fechar menu de navegação"
+          ></button>
+        </div>
+
+        <SidebarContent onNavigate={onClose} />
+      </aside>
+    </>
   )
 }
 
